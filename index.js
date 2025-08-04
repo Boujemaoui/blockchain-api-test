@@ -1,39 +1,24 @@
 const express = require("express");
-const { ethers } = require("ethers");
+const morgan = require("morgan");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const daiRouter = require('./routes/dai');
+
+dotenv.config(); // Cargar variables de entorno
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Clave Infura y dirección de contrato
-const provider = new ethers.JsonRpcProvider("https://mainnet.infura.io/v3/44a5cd3e22404b84a5d68a9bc5b5e226");
+// Middlewares
+app.use(cors());
+app.use(morgan('dev'));
+app.use(express.json());
 
-// Dirección de contrato público (ej: DAI Stablecoin)
-const daiContractAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+// Ruta delegada a /ApiTest
+app.use('/ApiTest', daiRouter);
 
-// ABI mínima para leer balance y nombre del token
-const daiAbi = [
-  "function name() view returns (string)",
-  "function totalSupply() view returns (uint256)"
-];
 app.get('/', (req, res) => {
-  res.send('Servidor API corriendo. Usa la ruta /ApiTest para ver el resultado.');
-});
-
-// Ruta API
-app.get("/ApiTest", async (req, res) => {
-  try {
-    const contract = new ethers.Contract(daiContractAddress, daiAbi, provider);
-    const name = await contract.name();
-    const supply = await contract.totalSupply();
-
-    console.log("Token:", name);
-    console.log("Total Supply:", ethers.formatUnits(supply, 18));
-
-    res.send({ token: name, totalSupply: ethers.formatUnits(supply, 18) });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Error al obtener datos del contrato.");
-  }
+  res.send('Servidor API corriendo. Usa la ruta /ApiTest/totalSupply para ver el resultado.');
 });
 
 app.listen(port, () => {
