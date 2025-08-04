@@ -1,13 +1,20 @@
-# API - Consulta totalSupply de DAI
+# API - DAI totalSupply Query
 
-Este proyecto consulta el `totalSupply` del token DAI directamente desde la blockchain de Ethereum usando Web3.js.
+This project implements a simple Node.js API that queries the `totalSupply` (total tokens issued) of the DAI token directly from the Ethereum blockchain (mainnet) using the `ethers.js` library.
 
-## 📦 Requisitos
+---
 
-- Node.js
-- Web3.js
+## 📦 Requirements
 
-## 🚀 Instalación
+- Node.js (v14 or higher recommended)  
+- npm  
+- Internet connection to access Infura  
 
-```bash
-npm install
+---
+
+## 🚀 Installation
+
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/Boujemaoui/blockchain-api-test.git  
+   cd blockchain-api-test  
